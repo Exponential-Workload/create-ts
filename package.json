@@ -1,7 +1,7 @@
 {
   "name": "create-clusterfuck",
   "displayName": "Create Clusterfuck",
-  "version": "0.0.8",
+  "version": "0.0.9-fix-dep",
   "description": "A templating tool for a variety of different utilities",
   "main": "dist/index.js",
   "scripts": {
@@ -33,16 +33,17 @@
     "@types/fs-extra": "^11.0.1",
     "@types/node": "^18.11.18",
     "@types/prompts": "^2.4.2",
-    "fs-extra": "^11.1.0",
     "rollup": "^3.13.0",
     "tslib": "^2.5.0",
     "typescript": "^4.9.5"
   },
   "dependencies": {
-    "chalk": "^4.1.2",
     "@exponentialworkload/logger": "^1.0.2",
+    "chalk": "^4.1.2",
     "command-exists": "^1.2.9",
+    "fs-extra": "^11.1.0",
     "get-cursor-position": "^2.0.0",
+    "node-gyp": "^9.3.1",
     "prompts": "^2.4.2"
   },
   "homepage": "https://github.com/Exponential-Workload/create-clusterfuck",
