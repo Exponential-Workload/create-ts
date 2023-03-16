@@ -23,6 +23,8 @@ const mappings = {
   'electrokit': 'ElectroKit (Electron + SvelteKit)',
   'discord-bot': 'Discord.JS v14 Bot',
   'svelte': 'SvelteKit',
+  'electron-express': 'Electron w/ Local Express',
+  'electron-remote': 'Electron w/ Remote URI'
 } as Record<string, string>;
 (async () => {
   const logger = new Logger()
@@ -228,10 +230,11 @@ const mappings = {
   })
   if (existsSync(resolve(outdir, '.postcreate'))) {
     logger.info('Running Postinstall Script')
-    rmSync(resolve(outdir, '.postcreate'))
     execSync(packageManagerRun + ' postcreate', {
-      cwd: outdir
+      cwd: outdir,
+      stdio: 'inherit'
     })
+    rmSync(resolve(outdir, '.postcreate'))
   }
   if (existsSync(resolve(outdir, '.requires-pnpm')))
     rmSync(resolve(outdir, '.requires-pnpm'))

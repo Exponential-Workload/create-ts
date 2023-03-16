@@ -1,0 +1,10 @@
+const fs = require('fs');
+const prompts = require('prompts');
+(async () => {
+  const output = await prompts({
+    name: 'url',
+    type: 'text',
+    message: 'What URL do you want your app to point to?'
+  })
+  fs.writeFileSync(__dirname + '/src/static/url.txt', output.url)
+})()
