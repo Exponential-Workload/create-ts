@@ -182,12 +182,19 @@ const mappings = {
   copySync(resolve(baseTemplateFiles, response.template), outdir)
   logger.info('Overwriting package.json')
   const processPackageJSON = (pkg: string) => {
-    const templatePackageJSON = JSON.parse(readFileSync(pkg, 'utf-8'));
-    templatePackageJSON.license = licenses.join(' OR ');
-    templatePackageJSON.name = name.toLowerCase();
-    templatePackageJSON.displayName = name;
-    templatePackageJSON.author = author;
-    writeFileSync(pkg, JSON.stringify(templatePackageJSON, null, 2))
+    try {
+      const templatePackageJSON = JSON.parse(readFileSync(pkg, 'utf-8'));
+      templatePackageJSON.license = licenses.join(' OR ');
+      templatePackageJSON.name = name.toLowerCase();
+      if (typeof templatePackageJSON.displayName !== 'undefined' || name.toLowerCase() !== name)
+        templatePackageJSON.displayName = name;
+      templatePackageJSON.author = author;
+      if (typeof templatePackageJSON.productName !== 'undefined')
+        templatePackageJSON.productName = name;
+      writeFileSync(pkg, JSON.stringify(templatePackageJSON, null, 2))
+    } catch (error) {
+      console.warn('Error overwriting package.json at', pkg, '\nError:', error);
+    }
   }
   // const a = resolve(outdir, 'package.json');
   // if (existsSync(a))
