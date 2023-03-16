@@ -1,7 +1,7 @@
 {
   "name": "create-clusterfuck",
   "displayName": "Create Clusterfuck",
-  "version": "0.0.9-pkg-try",
+  "version": "0.0.9-pkg-no-node-modules",
   "description": "A templating tool for a variety of different utilities",
   "main": "dist/index.js",
   "scripts": {

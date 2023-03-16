@@ -182,6 +182,7 @@ const mappings = {
   copySync(resolve(baseTemplateFiles, response.template), outdir)
   logger.info('Overwriting package.json')
   const processPackageJSON = (pkg: string) => {
+    if (pkg.includes('node_modules')) return;
     try {
       const templatePackageJSON = JSON.parse(readFileSync(pkg, 'utf-8'));
       templatePackageJSON.license = licenses.join(' OR ');
