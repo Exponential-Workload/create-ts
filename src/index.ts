@@ -2,7 +2,7 @@ import prompts from 'prompts';
 import Logger from '@exponentialworkload/logger';
 import licenseContents from './licenses';
 import { resolve } from 'path';
-import { copySync, ensureDirSync, existsSync, mkdirSync, readdirSync, readFileSync, renameSync, rmSync, writeFileSync } from 'fs-extra';
+import { copySync, ensureDirSync, existsSync, mkdirSync, readdirSync, readFileSync, renameSync, rmSync, Stats, statSync, writeFileSync } from 'fs-extra';
 import { execSync } from 'child_process';
 import { sync as commandExistsSync } from 'command-exists'
 import chalk from 'chalk';
@@ -182,6 +182,20 @@ const mappings = {
   logger.info('Copying Template')
   // copySync(resolve(baseTemplateFiles, 'all'), outdir)
   copySync(resolve(baseTemplateFiles, response.template), outdir)
+  logger.info('Ensuring dotfiles are copied correctly')
+  const dotfiles = ['gitignore', 'npmignore', 'requires-pnpm', 'postcreate'].map(v => `dotfile.${v}`)
+  const rundirSync = (dir: string) => (dir.includes('/.pnpm') || dir.includes('node_modules')) ? [] : readdirSync(dir).map(v => ([`${dir}/${v}`, v, dir, statSync(`${dir}/${v}`)] as [string, string, string, Stats])).forEach(([filePath, file, dir, stat]) => {
+    if ((stat).isDirectory()) rundirSync(filePath)
+    else if (dotfiles.includes(file)) {
+      console.log('[prepublish]: Make copy of', filePath);
+      const target = `${dir}/${file.replace('dotfile', '')}`
+      if (existsSync(target))
+        rmSync(filePath)
+      else
+        copySync(filePath, target)
+    }
+  })
+  rundirSync(outdir)
   logger.info('Overwriting package.json')
   const processPackageJSON = (pkg: string) => {
     if (pkg.includes('node_modules')) return;

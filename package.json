@@ -1,14 +1,14 @@
 {
   "name": "create-clusterfuck",
   "displayName": "Create Clusterfuck",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "A templating tool for a variety of different utilities",
   "main": "dist/index.js",
   "scripts": {
     "build": "rollup -c --bundleConfigAsCjs",
     "dev": "echo $ build && rollup -c --bundleConfigAsCjs && echo $ start && node .",
     "start": "node .",
-    "prepublish": "pnpm build"
+    "prepublish": "node prepublish.js && pnpm build"
   },
   "keywords": [
     "typescript",
