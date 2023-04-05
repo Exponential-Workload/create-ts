@@ -189,10 +189,9 @@ const mappings = {
     else if (dotfiles.includes(file)) {
       console.log('[prepublish]: Make copy of', filePath);
       const target = `${dir}/${file.replace('dotfile', '')}`
-      if (existsSync(target))
-        rmSync(filePath)
-      else
+      if (!existsSync(target))
         copySync(filePath, target)
+      rmSync(filePath)
     }
   })
   rundirSync(outdir)
