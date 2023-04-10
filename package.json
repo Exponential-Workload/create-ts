@@ -1,7 +1,7 @@
 {
   "name": "create-clusterfuck",
   "displayName": "Create Clusterfuck",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A templating tool for a variety of different utilities",
   "main": "dist/index.js",
   "scripts": {
@@ -47,5 +47,9 @@
     "prompts": "^2.4.2"
   },
   "homepage": "https://github.com/Exponential-Workload/create-clusterfuck",
-  "bin": "dist/index.js"
+  "bin": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Exponential-Workload/create-clusterfuck.git"
+  }
 }
