@@ -1,13 +1,17 @@
 {
   "compilerOptions": {
-    "target": "es2018",                          
+    "target": "es2018",
     "module": "esnext",
-    "moduleResolution": "node",                     
+    "moduleResolution": "node",
     "noEmitOnError": true,
-    "lib": ["es2017"],                            
-    "strict": true,  
+    "lib": [
+      "es2017"
+    ],
+    "strict": true,
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true
   },
-  "include": ["./src/**/*.ts"]
+  "include": [
+    "./src/**/*.ts"
+  ]
 }

@@ -13,8 +13,8 @@ export default {
     sourceRoot: 'dist',
     declaration: true,
     declarationDir: 'dist',
-  }),{
-    renderChunk: (code)=>{
+  }), {
+    renderChunk: (code) => {
       return {
         code: `#!/usr/bin/env node
 ${code}`,
