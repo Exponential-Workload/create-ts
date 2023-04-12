@@ -1,4 +1,8 @@
 export default ({
+  'BEERWARE': `"THE BEER-WARE LICENSE" (Revision 42):
+<<name of author>> wrote this file.  As long as you retain this notice you
+can do whatever you want with this stuff. If we meet some day, and you think
+this stuff is worth it, you can buy me a beer in return.   <name of author>`,
   'MIT': `Copyright (c) <year> <name of author>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy <program> (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -2336,5 +2340,5 @@ into proprietary programs. If your program is a subroutine library,
 you may consider it more useful to permit linking proprietary
 applications with the library. If this is what you want to do, use the
 [GNU Lesser General Public License](https://www.gnu.org/licenses/lgpl.html) instead of this
-License.`
-} as Record<string,string>)
+License.`,
+} as Record<string, string>)
