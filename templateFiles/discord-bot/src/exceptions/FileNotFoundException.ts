@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2022 Yielding
+Copyright (c) 2022 Expo
 Certain portions of this software may be Copyright (c) 2022 expdani
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -47,7 +47,7 @@ export default class FileNotFoundException extends Exception {
 Further Information:
 ${furtherInfomation}` : ''}`);
     this.name = 'FileNotFoundException';
-    if (!provideStackTrace){
+    if (!provideStackTrace) {
       StackToSingleLine(this);
       const stack = this.stack.split('\n');
       stack.pop();
@@ -59,7 +59,7 @@ ${furtherInfomation}` : ''}`);
    * @param path Path of the required file
    * @alias {@link DemandFile}
    */
-  DemandFile(path:string): void {
+  DemandFile(path: string): void {
     return DemandFile(path);
   }
 }

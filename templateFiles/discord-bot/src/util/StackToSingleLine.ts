@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2022 Yielding
+Copyright (c) 2022 Expo
 Certain portions of this software may be Copyright (c) 2022 expdani
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -30,8 +30,8 @@ export const StackToSingleLine = (excetion: Exception) => {
   let state = 2;
   excetion.stack = (excetion.stack ?? '').split('\r\n').join('\n')
     .split('\n')
-    .filter(v=>{
-      if (v.startsWith('We have created')){
+    .filter(v => {
+      if (v.startsWith('We have created')) {
         state = 1;
         return true;
       }

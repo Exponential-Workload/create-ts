@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2022 Yielding
+Copyright (c) 2022 Expo
 Certain portions of this software may be Copyright (c) 2022 expdani
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -32,7 +32,7 @@ import { StackToSingleLine } from './src/util/StackToSingleLine';
 
 const envFile = `${path.resolve(__dirname)}/.env`;
 
-if (!fs.existsSync(envFile)){
+if (!fs.existsSync(envFile)) {
   const fileNotFoundEx = new FileNotFoundException(envFile);
   fs.writeFileSync(envFile, `# Your Discord Bot Token:
 DISCORD_API_KEY=

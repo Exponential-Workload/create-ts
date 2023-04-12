@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2022 Yielding
+Copyright (c) 2022 Expo
 Certain portions of this software may be Copyright (c) 2022 expdani
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -27,12 +27,12 @@ import { StackToSingleLine } from '../util/StackToSingleLine';
 import Exception from './Exception';
 
 export default class ModalNotFoundException extends Exception {
-  constructor(command: string, furtherInfomation?: string, provideStackTrace?: boolean){
+  constructor(command: string, furtherInfomation?: string, provideStackTrace?: boolean) {
     super(`The callback for the modal ${command} was not found.${furtherInfomation ? `
 Further Information:
 ${furtherInfomation}` : ''}`);
     this.name = 'ModalNotFoundException';
-    if (!provideStackTrace){
+    if (!provideStackTrace) {
       StackToSingleLine(this);
       const stack = this.stack.split('\n');
       stack.pop();

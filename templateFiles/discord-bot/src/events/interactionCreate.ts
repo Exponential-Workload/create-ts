@@ -1,11 +1,7 @@
-// expdani, if you use these changes, fyi, you legally need to credit me
-// in fact, you still legally are requried to credit me for the changes in https://github.com/expdani/discordjs-template/commit/bf292b3bfdb8930dac7ce76fefb38f69ac644e93
-// see https://github.com/expdani/discordjs-template/issues/1
-
 /*
 MIT License
 
-Copyright (c) 2022 Yielding
+Copyright (c) 2022 Expo
 Certain portions of this software may be Copyright (c) 2022 expdani
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -49,7 +45,7 @@ export const execute = async (client: DiscordClient, interaction: Interaction) =
       if (!command)
         throw new CommandNotFoundException(interaction.commandName);
       return await command.execute(interaction);
-    } catch (err:any) {
+    } catch (err: any) {
       const ExceptionErr: Exception | null = err instanceof Exception ? err : null;
       console.error(err);
       const failedEmbed = (new EmbedBuilder).setTitle('An error ocurred while running this command')
@@ -58,7 +54,7 @@ export const execute = async (client: DiscordClient, interaction: Interaction) =
       if (!interaction.replied && !interaction.deferred)
         await interaction.reply({ 'embeds': [failedEmbed] });
       else if (interaction.replied)
-        await interaction.fetchReply().then(msg=>
+        await interaction.fetchReply().then(msg =>
           msg.edit({
             'embeds': [
               ...msg.embeds,
@@ -84,7 +80,7 @@ export const execute = async (client: DiscordClient, interaction: Interaction) =
           'embeds': [failedEmbed], 'ephemeral': true
         });
       else if (interaction.replied)
-        interaction.fetchReply().then(msg=>
+        interaction.fetchReply().then(msg =>
           msg.edit({
             'embeds': [
               ...msg.embeds,
@@ -110,7 +106,7 @@ export const execute = async (client: DiscordClient, interaction: Interaction) =
           'embeds': [failedEmbed], 'ephemeral': true
         });
       else if (interaction.replied)
-        interaction.fetchReply().then(msg=>
+        interaction.fetchReply().then(msg =>
           msg.edit({
             'embeds': [
               ...msg.embeds,

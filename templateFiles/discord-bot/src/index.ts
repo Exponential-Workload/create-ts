@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2022 Yielding
+Copyright (c) 2022 Expo
 Certain portions of this software may be Copyright (c) 2022 expdani
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -62,7 +62,7 @@ process.on('SIGINT', () => {
   process.exit(0);
 });
 
-client.login(env.DISCORD_API_KEY).catch((reason:any)=>{
+client.login(env.DISCORD_API_KEY).catch((reason: any) => {
   throw new Exception('Discord API Connection Failed', reason instanceof Exception || reason instanceof DiscordAPIError ? reason : new Exception(reason));
 });
 

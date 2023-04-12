@@ -14,7 +14,7 @@
     "lint": "eslint src environment.ts",
     "lint:fix": "eslint src environment.ts --fix"
   },
-  "author": "expdani & yielding",
+  "author": "expdani & Expo",
   "license": "MIT",
   "dependencies": {
     "@discordjs/rest": "^1.7.0",

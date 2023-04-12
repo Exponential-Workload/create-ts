@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2022 Yielding
+Copyright (c) 2022 Expo
 Certain portions of this software may be Copyright (c) 2022 expdani
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,7 +24,7 @@ SOFTWARE.
 */
 
 export default class Exception extends Error {
-  constructor(message: string, cause?: Exception){
+  constructor(message: string, cause?: Exception) {
     super(message, { 'cause': cause });
     this.name = 'ApplicationException';
   }

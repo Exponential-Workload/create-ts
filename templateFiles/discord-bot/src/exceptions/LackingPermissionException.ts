@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2022 Yielding
+Copyright (c) 2022 Expo
 Certain portions of this software may be Copyright (c) 2022 expdani
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -31,7 +31,7 @@ import Exception from './Exception';
  * @exception @class
  */
 export default class LackingPermissionException extends Exception {
-  constructor(message: 'No Message Specified'){
+  constructor(message: 'No Message Specified') {
     super(message);
     this.name = 'LackingPermissionException';
   }

@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2022 Yielding
+Copyright (c) 2022 Expo
 Copyright (c) 2022 expdani for certain, semi-insignificant portions of the software
 
 Permission is hereby granted, free of charge, to any person obtaining a copy

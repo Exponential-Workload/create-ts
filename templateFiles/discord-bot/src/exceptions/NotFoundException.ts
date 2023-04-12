@@ -1,7 +1,7 @@
 /*
 MIT License
 
-Copyright (c) 2022 Yielding
+Copyright (c) 2022 Expo
 Certain portions of this software may be Copyright (c) 2022 expdani
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -32,7 +32,7 @@ import FileNotFoundException from './FileNotFoundException';
  * @class @exception
  */
 export default class NotFoundException extends Exception {
-  constructor(message:string){
+  constructor(message: string) {
     super(message);
     this.name = 'NotFoundException';
   }
