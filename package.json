@@ -1,7 +1,7 @@
 {
   "name": "@femboycafe/create",
   "displayName": "Create TS",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "A templating tool for a variety of different typescript utilities",
   "main": "dist/index.js",
   "scripts": {
