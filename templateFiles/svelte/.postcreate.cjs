@@ -55,6 +55,6 @@
 ${node ? '' : `export const prerender = true;
 `}`)
   fs.writeFileSync(scjs, fs.readFileSync(scjs, 'utf-8').replace(/inlineStyleThreshold: -?([0-9]+|Infinity)/, 'inlineStyleThreshold: ' + ((inlineStyleThresholdShouldBeInfinite ? 'Infinity' : inlineStyleThreshold === -1 ? 'Infinity' : inlineStyleThreshold) ?? 0)))
-  if (!fs.existsSync(__dirname + '/../../.ccf'))
+  if (!fs.existsSync(__dirname + '/../../.createroot'))
     fs.unlinkSync(__filename)
 })();
