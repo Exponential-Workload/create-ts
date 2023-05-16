@@ -30,9 +30,8 @@
   fs.writeFileSync(scjs, fs.readFileSync(scjs, 'utf-8').replace(/@sveltejs\/adapter-[a-zA-Z0-9\-\_]+/, '@sveltejs/adapter-' + (node ? 'node' : 'static')))
   if (node)
     fs.writeFileSync(scjs, fs.readFileSync(scjs, 'utf-8').replace(/checkOrigin: [a-zA-Z0-9]+/, 'checkOrigin: ' + csrf))
-  fs.writeFileSync(__dirname + '/src/routes/+layout.ts', `${csr ? `export const csr = true;
-`: `export const csr = false;
-`}${node ? '' : `export const prerender = true;
+  fs.writeFileSync(__dirname + '/src/routes/+layout.ts', `export const csr = ${csr};
+${node ? '' : `export const prerender = true;
 `}`)
   if (!fs.existsSync(__dirname+'/../../.ccf'))
     fs.unlinkSync(__filename)
