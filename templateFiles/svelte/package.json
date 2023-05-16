@@ -1,23 +1,26 @@
 {
-	"name": "svelte",
-	"version": "0.0.1",
-	"private": true,
-	"scripts": {
-		"dev": "vite dev",
-		"build": "vite build",
-		"preview": "vite preview",
-		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
-	},
-	"devDependencies": {
-		"@sveltejs/adapter-auto": "^2.0.0",
-		"@sveltejs/adapter-node": "^1.2.3",
-		"@sveltejs/kit": "^1.15.2",
-		"svelte": "^3.58.0",
-		"svelte-check": "^3.2.0",
-		"tslib": "^2.5.0",
-		"typescript": "^5.0.4",
-		"vite": "^4.2.1"
-	},
-	"type": "module"
+  "name": "svelte",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+    "postcreate": "node .postcreate.cjs"
+  },
+  "devDependencies": {
+    "@sveltejs/adapter-node": "^1.2.4",
+    "@sveltejs/adapter-static": "^2.0.2",
+    "@sveltejs/kit": "^1.16.3",
+    "prompts": "^2.4.2",
+    "sass": "^1.62.1",
+    "svelte": "^3.59.1",
+    "svelte-check": "^3.3.2",
+    "tslib": "^2.5.0",
+    "typescript": "^5.0.4",
+    "vite": "^4.3.7"
+  },
+  "type": "module"
 }
