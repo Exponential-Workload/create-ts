@@ -1,3 +1,30 @@
+<script lang="ts">
+  import Fonts from '$lib/NexusFonts/Fonts.svelte';
+  import FontsPreloads from '$lib/NexusFonts/FontsPreloads.svelte';
+  import Meta from '../lib/Meta/Meta.svelte';
+</script>
+
+<svelte:head>
+  <Meta
+    tags={{
+      'theme-color': '#cc3200',
+    }}
+  />
+  <FontsPreloads />
+  <Fonts
+    fonts={[
+      // Put all fonts loaded in the app here:
+      'Cera Pro',
+      // 'Inter',
+      // {
+      //   family: 'Roboto',
+      //   italic: [false, true],
+      //   weight: 500,
+      // },
+    ]}
+  />
+</svelte:head>
+
 <div id="appRoot">
   <slot />
 </div>
@@ -8,7 +35,8 @@
     background: #1a1a1a;
     color: #ffffff;
     // remove ugly default fonts
-    font-family: Inter, "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; // Inter is imported in app.html
+    font-family: 'Cera Pro', Inter, 'Segoe UI', Tahoma, Geneva, Verdana,
+      sans-serif; // Inter is imported in app.html
     // positioning
     position: fixed;
     top: 0;

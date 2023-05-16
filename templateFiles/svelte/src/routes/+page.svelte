@@ -1,10 +1,14 @@
 <script lang="ts">
-  // typescript
+  import Meta from '../lib/Meta/Meta.svelte';
 </script>
 
 <svelte:head>
-  <title>/</title>
-  <meta name="description" content="Some Description" />
+  <Meta
+    tags={{
+      title: '/',
+      description: 'Simple SvelteKit Demo',
+    }}
+  />
 </svelte:head>
 
 <main>
