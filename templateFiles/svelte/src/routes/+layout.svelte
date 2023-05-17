@@ -15,7 +15,7 @@
     fonts={[
       // Put all fonts loaded in the app here:
       'Cera Pro',
-      // 'Inter',
+      // 'Comme',
       // {
       //   family: 'Roboto',
       //   italic: [false, true],
@@ -35,8 +35,8 @@
     background: #1a1a1a;
     color: #ffffff;
     // remove ugly default fonts
-    font-family: 'Cera Pro', Inter, 'Segoe UI', Tahoma, Geneva, Verdana,
-      sans-serif; // Inter is imported in app.html
+    font-family: 'Cera Pro', Comme, Inter, Roboto, 'Segoe UI', Tahoma, Geneva,
+      Verdana, sans-serif;
     // positioning
     position: fixed;
     top: 0;
