@@ -55,7 +55,7 @@ const perNodeStaticFiles = {
     },
     {
       name: 'minimal',
-      type: 'confirm',
+      type: (_, o) => o.node ? 'confirm' : null,
       message: 'Do you want a minimal setup?',
       initial: false,
     },
@@ -72,7 +72,7 @@ const perNodeStaticFiles = {
   });
   if (!completed)
     throw new Error('Cancelled.')
-  if (minimal) {
+  if (minimal || !node) {
     // if the parent dir name is templateFiles, error
     if (isTemplateBase)
       throw new Error('Minimal mode is destructive and cannot be run in the templateFiles directory.')
