@@ -88,7 +88,7 @@ const run = (async () => {
   if (ciProvider && ciProvider !== 'none') {
     switch (ciProvider) {
       case 'github':
-        console.log('[CI] INFO: If you\'re not using GitHub\'s Container Registry, you\'ll want to change the CI job.');
+        console.log('[CI] INFO: If you\'re not using GitHub\'s Container Registry, you\'ll want to change the CI job.\n[CI] INFO: You may need to modify the CI job depending on your setup - see https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry#pushing-container-images');
         fs.mkdirSync(__dirname + '/.github/workflows', { recursive: true });
         fs.writeFileSync(__dirname + '/.github/workflows/build.yml', `name: Build and Deploy Docker Image
 
