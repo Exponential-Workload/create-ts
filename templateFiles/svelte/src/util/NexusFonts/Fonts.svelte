@@ -63,7 +63,7 @@
       return thisFamily;
     } else return family;
   });
-  const href = `https://fonts.nexuspipe.com/css2?family=${fontsAsStrArray.join(
+  const href = `https://fonts.nexus/css2?family=${fontsAsStrArray.join(
     '|'
   )}&display=${display}${local !== AllowLocal.Auto ? `&local=${local}` : ''}`;
 

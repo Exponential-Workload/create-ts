@@ -2,7 +2,8 @@
   const fs = require('fs');
   const prompts = require('prompts');
   const scjs = __dirname + '/svelte.config.js';
-  const { node, csrf, csr, inlineStyleThreshold, inlineStyleThresholdShouldBeInfinite, completed } = await prompts([
+  const isTemplateBase = fs.existsSync(__dirname + '/../../templateFiles') || fs.existsSync(__dirname + '/../../.createroot')
+  const { node, csrf, csr, inlineStyleThreshold, inlineStyleThresholdShouldBeInfinite, minimal, completed } = await prompts([
     {
       name: 'node',
       type: 'confirm',
@@ -40,14 +41,40 @@
       max: Infinity
     },
     {
+      name: 'minimal',
+      type: 'confirm',
+      message: 'Do you want a minimal setup?',
+      initial: false,
+    },
+    {
       name: 'completed',
       type: 'confirm',
       message: 'Is this configuration correct?',
-      initial: false
-    }
-  ])
+      initial: !isTemplateBase,
+    },
+  ], {
+    onCancel: () => {
+      throw new Error('Exited.')
+    },
+  });
   if (!completed)
     throw new Error('Cancelled.')
+  if (minimal) {
+    // if the parent dir name is templateFiles, error
+    if (isTemplateBase)
+      throw new Error('Minimal mode is destructive and cannot be run in the templateFiles directory.')
+    fs.rmSync(__dirname + '/src/routes/(app)', {
+      recursive: true,
+      force: true,
+    });
+    fs.rmSync(__dirname + '/src/lib/', {
+      recursive: true,
+      force: true,
+    });
+    fs.unlinkSync(__dirname + '/ABOUT-TEMPLATE.md');
+    fs.mkdirSync(__dirname + '/src/routes/(app)');
+    fs.writeFileSync(__dirname + '/src/routes/(app)/+page.svelte', `<script lang="ts">`)
+  }
   fs.writeFileSync(scjs, fs.readFileSync(scjs, 'utf-8').replace(/@sveltejs\/adapter-[a-zA-Z0-9\-\_]+/, '@sveltejs/adapter-' + (node ? 'node' : 'static')))
   if (node)
     fs.writeFileSync(scjs, fs.readFileSync(scjs, 'utf-8').replace(/checkOrigin: [a-zA-Z0-9]+/, 'checkOrigin: ' + csrf))
@@ -55,6 +82,10 @@
 ${node ? '' : `export const prerender = true;
 `}`)
   fs.writeFileSync(scjs, fs.readFileSync(scjs, 'utf-8').replace(/inlineStyleThreshold: -?([0-9]+|Infinity)/, 'inlineStyleThreshold: ' + ((inlineStyleThresholdShouldBeInfinite ? 'Infinity' : inlineStyleThreshold === -1 ? 'Infinity' : inlineStyleThreshold) ?? 0)))
-  if (!fs.existsSync(__dirname + '/../../.createroot'))
+  if (!isTemplateBase) {
+    const pkg = JSON.parse(fs.readFileSync(__dirname + '/package.json', 'utf-8'));
+    delete pkg.scripts.postcreate;
+    fs.writeFileSync(__dirname + '/package.json', JSON.stringify(pkg, null, 2))
     fs.unlinkSync(__filename)
+  }
 })();

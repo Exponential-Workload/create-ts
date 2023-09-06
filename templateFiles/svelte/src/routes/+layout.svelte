@@ -1,7 +1,9 @@
 <script lang="ts">
-  import Fonts from '$lib/NexusFonts/Fonts.svelte';
-  import FontsPreloads from '$lib/NexusFonts/FontsPreloads.svelte';
-  import Meta from '../lib/Meta/Meta.svelte';
+  import './global.scss';
+  import { NotifHost } from 'opensveltenotif';
+  import Fonts from '../util/NexusFonts/Fonts.svelte';
+  import FontsPreloads from '../util/NexusFonts/FontsPreloads.svelte';
+  import Meta from '../util/Meta/Meta.svelte';
 </script>
 
 <svelte:head>
@@ -14,16 +16,18 @@
   <Fonts
     fonts={[
       // Put all fonts loaded in the app here:
-      'Cera Pro',
-      // 'Comme',
-      // {
-      //   family: 'Roboto',
-      //   italic: [false, true],
-      //   weight: 500,
-      // },
+      'Inter',
+      {
+        family: 'Roboto',
+        // italic: [false, true],
+        italic: false,
+        weight: 500,
+      },
     ]}
   />
 </svelte:head>
+
+<NotifHost />
 
 <div id="appRoot">
   <slot />
@@ -32,11 +36,12 @@
 <style lang="scss">
   #appRoot {
     // no blinding ppl
-    background: #1a1a1a;
+    background: var(--background-primary);
     color: #ffffff;
     // remove ugly default fonts
-    font-family: 'Cera Pro', Comme, Inter, Roboto, 'Segoe UI', Tahoma, Geneva,
-      Verdana, sans-serif;
+    font-family: var(--font-default, Inter), system-ui, -apple-system,
+      BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
+      'Open Sans', 'Helvetica Neue', sans-serif;
     // positioning
     position: fixed;
     top: 0;
@@ -47,12 +52,5 @@
     // overflow control
     overflow-y: auto;
     overflow-x: hidden;
-    // center everything
-    /*
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    */
   }
 </style>
