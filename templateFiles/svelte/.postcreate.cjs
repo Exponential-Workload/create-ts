@@ -94,7 +94,15 @@ const run = (async () => {
 on:
   push:
     branches:
+      - master
+      - mistress
       - main
+      - mainline
+      - primary
+      - trunk
+      - prod
+      - production
+      - release
 
 jobs:
   build:
