@@ -16,7 +16,7 @@ const run = (async () => {
   const prompts = require('prompts');
   const scjs = __dirname + '/svelte.config.js';
   const isTemplateBase = fs.existsSync(__dirname + '/../../templateFiles') || fs.existsSync(__dirname + '/../../.createroot')
-  const { node, csrf, csr, inlineStyleThreshold, inlineStyleThresholdShouldBeInfinite, minimal, completed, actions } = await prompts([
+  const { node, csrf, csr, inlineStyleThreshold, inlineStyleThresholdShouldBeInfinite, minimal, completed, ciProvider } = await prompts([
     {
       name: 'node',
       type: 'confirm',
@@ -60,7 +60,7 @@ const run = (async () => {
       initial: false,
     },
     {
-      name: 'docker-ci-provider',
+      name: 'ciProvider',
       type: 'select',
       message: 'Which CI/CD provider do you want to use to build and deploy your Docker image?',
       choices: [
@@ -85,8 +85,8 @@ const run = (async () => {
   });
   if (!completed)
     return await run();
-  if (actions && actions !== 'none') {
-    switch (actions) {
+  if (ciProvider && ciProvider !== 'none') {
+    switch (ciProvider) {
       case 'github':
         fs.mkdirSync(__dirname + '/.github/workflows', { recursive: true });
         fs.writeFileSync(__dirname + '/.github/workflows/build.yml', `name: Build and Deploy Docker Image
