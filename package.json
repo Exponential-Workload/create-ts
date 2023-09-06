@@ -8,9 +8,8 @@
     "build": "rollup -c --bundleConfigAsCjs",
     "dev": "echo $ build && rollup -c --bundleConfigAsCjs && echo $ start && node .",
     "start": "node .",
-    "prepublish": "node prepublish.js && pnpm build",
     "postupgrade": "pnpm i chalk@^4",
-    "prepublishOnly": "pnpm i chalk@^4"
+    "prepublishOnly": "node prepublish.js && pnpm build && pnpm i chalk@^4"
   },
   "keywords": [
     "typescript",

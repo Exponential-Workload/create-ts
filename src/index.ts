@@ -24,7 +24,8 @@ const mappings = {
   'discord-bot': 'Discord.JS v14 Bot',
   'svelte': 'SvelteKit',
   'electron-express': 'Electron w/ Local Express',
-  'electron-remote': 'Electron w/ Remote URI'
+  'electron-remote': 'Electron w/ Remote URI',
+  'rollup-library': 'Rollup Library',
 } as Record<string, string>;
 (async () => {
   const logger = new Logger()
