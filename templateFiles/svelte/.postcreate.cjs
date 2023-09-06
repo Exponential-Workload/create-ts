@@ -86,7 +86,13 @@ const perNodeStaticFiles = {
     });
     fs.unlinkSync(__dirname + '/ABOUT-TEMPLATE.md');
     fs.mkdirSync(__dirname + '/src/routes/(app)');
-    fs.writeFileSync(__dirname + '/src/routes/(app)/+page.svelte', `<script lang="ts">`)
+    fs.writeFileSync(__dirname + '/src/routes/(app)/+page.svelte', `<script lang="ts">
+  // script stuff!
+</script>
+
+<style lang="scss">
+  // add styles
+</style>`)
   }
   fs.writeFileSync(scjs, fs.readFileSync(scjs, 'utf-8').replace(/@sveltejs\/adapter-[a-zA-Z0-9\-\_]+/, '@sveltejs/adapter-' + (node ? 'node' : 'static')))
   if (node)
