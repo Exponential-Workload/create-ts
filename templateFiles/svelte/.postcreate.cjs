@@ -101,7 +101,7 @@ const perNodeStaticFiles = {
 ${node ? '' : `export const prerender = true;
 `}`)
   fs.writeFileSync(scjs, fs.readFileSync(scjs, 'utf-8').replace(/inlineStyleThreshold: -?([0-9]+|Infinity)/, 'inlineStyleThreshold: ' + ((inlineStyleThresholdShouldBeInfinite ? 'Infinity' : inlineStyleThreshold === -1 ? 'Infinity' : inlineStyleThreshold) ?? 0)))
-  Object.entries(perNodeStaticFiles[node ? 'static' : 'node']).forEach(([k, v]) => {
+  Object.entries(perNodeStaticFiles[node ? 'node' : 'static']).forEach(([k, v]) => {
     fs[isTemplateBase ? 'copyFileSync' : 'renameSync'](__dirname + '/' + k, __dirname + '/' + v);
   })
   if (!isTemplateBase) {
