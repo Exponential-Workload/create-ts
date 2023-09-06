@@ -11,12 +11,12 @@ const perNodeStaticFiles = {
   },
 };
 
-(async () => {
+const run = (async () => {
   const fs = require('fs');
   const prompts = require('prompts');
   const scjs = __dirname + '/svelte.config.js';
   const isTemplateBase = fs.existsSync(__dirname + '/../../templateFiles') || fs.existsSync(__dirname + '/../../.createroot')
-  const { node, csrf, csr, inlineStyleThreshold, inlineStyleThresholdShouldBeInfinite, minimal, completed } = await prompts([
+  const { node, csrf, csr, inlineStyleThreshold, inlineStyleThresholdShouldBeInfinite, minimal, completed, actions } = await prompts([
     {
       name: 'node',
       type: 'confirm',
@@ -60,6 +60,19 @@ const perNodeStaticFiles = {
       initial: false,
     },
     {
+      name: 'docker-ci-provider',
+      type: 'select',
+      message: 'Which CI/CD provider do you want to use to build and deploy your Docker image?',
+      choices: [
+        { title: 'GitHub Actions, Github Registry', value: 'github' },
+        { title: 'GitLab CI, Any Registry (untested)', value: 'gitlab' },
+        // { title: 'AppVeyor (untested)', value: 'appveyor' },
+        // { title: 'CircleCI (untested)', value: 'circleci' },
+        { title: 'Drone CI, Any Registry (untested)', value: 'drone' },
+        { title: 'None', value: 'none' },
+      ],
+    },
+    {
       name: 'completed',
       type: 'confirm',
       message: 'Is this configuration correct?',
@@ -71,7 +84,133 @@ const perNodeStaticFiles = {
     },
   });
   if (!completed)
-    throw new Error('Cancelled.')
+    return await run();
+  if (actions && actions !== 'none') {
+    switch (actions) {
+      case 'github':
+        fs.mkdirSync(__dirname + '/.github/workflows', { recursive: true });
+        fs.writeFileSync(__dirname + '/.github/workflows/build.yml', `name: Build and Deploy Docker Image
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build Docker image
+        run: docker build -t docker-image .
+
+      - name: Create .tar.gz archive
+        run: |
+          docker save docker-image | gzip > docker-image.tar.gz
+      - name: Upload docker archive to Artifacts
+        uses: actions/upload-artifact@v3.1.3
+        with:
+          name: docker-image
+          path: docker-image.tar.gz
+
+  # If you wish to deploy the .tar.gz archive elsewhere, or only wish to have it in artifacts, change or remove the below
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v3.0.2
+        with:
+          name: docker-image
+          path: docker-image.tar.gz
+
+      # You may want to look into hosting your own Docker registry, or using a completely free one like https://treescale.com/ for private packages - for this, you'll need to modify or replace the below step.
+      # If you wish to use Docker Hub, you'll also need to change the below.
+      - name: Push Docker image to GitHub Packages
+        run: |
+          docker login -u \${{ github.actor }} -p \${{ secrets.GITHUB_TOKEN }} docker.pkg.github.com
+          docker tag docker-image docker.pkg.github.com/\${{ github.repository }}/docker-image:latest
+          docker push docker.pkg.github.com/\${{ github.repository }}/docker-image:latest
+`);
+        break;
+
+      case 'gitlab':
+        console.warn('[CI] WARNING: GitLab CI is untested.');
+        console.warn('[CI] WARNING: You\'ll need to provide environment variables CI_REGISTRY, CI_REGISTRY_USER, and CI_REGISTRY_PASSWORD to your CI.');
+        fs.writeFileSync(__dirname + '/.gitlab-ci.yml', `
+stages:
+  - build
+  - deploy
+
+build:
+  stage: build
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - docker build -t docker-image .
+    - docker save docker-image | gzip > docker-image.tar.gz
+  artifacts:
+    paths:
+      - docker-image.tar.gz
+
+deploy:
+  stage: deploy
+  image: docker:stable
+  services:
+    - docker:dind
+  dependencies:
+    - build
+  script:
+    - docker load < docker-image.tar.gz
+    - docker login -u \${CI_REGISTRY_USER} -p \${CI_REGISTRY_PASSWORD} \${CI_REGISTRY}
+    - docker tag docker-image \${CI_REGISTRY_IMAGE}/docker-image:latest
+    - docker push \${CI_REGISTRY_IMAGE}/docker-image:latest
+`);
+        break;
+      case 'drone':
+        console.warn('[CI] WARNING: Drone CI is untested.');
+        console.warn('[CI] WARNING: You\'ll need to provide environment variables CI_REGISTRY, CI_REGISTRY_USER, and CI_REGISTRY_PASSWORD to your CI.');
+        fs.writeFileSync(__dirname + '/.drone.yml', `
+kind: pipeline
+type: docker
+name: default
+
+steps:
+  - name: build
+    image: docker:latest
+    commands:
+      - docker build -t docker-image .
+      - docker save docker-image | gzip > docker-image.tar.gz
+    volumes:
+      - name: docker
+        path: /var/run/docker.sock
+
+  - name: deploy
+    image: docker:stable
+    commands:
+      - docker load < docker-image.tar.gz
+      - docker login -u \${CI_REGISTRY_USER} -p \${CI_REGISTRY_PASSWORD} \${CI_REGISTRY}
+      - docker tag docker-image \${CI_REGISTRY_IMAGE}/docker-image:latest
+      - docker push \${CI_REGISTRY_IMAGE}/docker-image:latest
+
+volumes:
+  - name: docker
+    host:
+      path: /var/run/docker.sock
+
+trigger:
+  event:
+    - push
+`);
+        break;
+      default:
+        break;
+    }
+  }
   if (minimal || !node) {
     // if the parent dir name is templateFiles, error
     if (isTemplateBase)
@@ -113,4 +252,5 @@ ${node ? '' : `export const prerender = true;
       fs.unlinkSync(__dirname + '/' + k);
     })
   }
-})();
+});
+run();
