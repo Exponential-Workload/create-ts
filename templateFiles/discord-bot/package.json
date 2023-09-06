@@ -55,5 +55,6 @@
     "default": {
       "context": "node"
     }
-  }
+  },
+  "private": true
 }

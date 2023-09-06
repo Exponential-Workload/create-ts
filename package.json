@@ -52,6 +52,5 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/Exponential-Workload/create-ts.git"
-  },
-  "private": true
+  }
 }
