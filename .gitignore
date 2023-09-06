@@ -4,4 +4,7 @@ test
 dotfile.*
 
 # this is a targetted attack at one file
-/templateFiles/svelte/src/routes/+page.ts
+/templateFiles/svelte/src/routes/+layout.ts
+/templateFiles/svelte/docker-compose.yml
+/templateFiles/svelte/Dockerfile
+/templateFiles/svelte/nginx.conf

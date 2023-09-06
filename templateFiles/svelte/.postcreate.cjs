@@ -2,12 +2,12 @@ const perNodeStaticFiles = {
   static: {
     'docker-compose.static.yml': 'docker-compose.yml',
     'Dockerfile.static': 'Dockerfile',
-    'nginx.static.conf': 'Dockerfile.dev',
+    'nginx.static.conf': 'nginx.conf',
   },
   node: {
     'docker-compose.node.yml': 'docker-compose.yml',
     'Dockerfile.node': 'Dockerfile',
-    'nginx.node.conf': 'Dockerfile.dev',
+    'nginx.node.conf': 'nginx.conf',
   },
 };
 
@@ -38,7 +38,7 @@ const perNodeStaticFiles = {
       name: 'csr',
       type: 'confirm',
       message: `Do you want to enable client-side rendering?`,
-      initial: 1
+      initial: true
     },
     {
       name: 'inlineStyleThresholdShouldBeInfinite',
@@ -91,20 +91,20 @@ const perNodeStaticFiles = {
   fs.writeFileSync(scjs, fs.readFileSync(scjs, 'utf-8').replace(/@sveltejs\/adapter-[a-zA-Z0-9\-\_]+/, '@sveltejs/adapter-' + (node ? 'node' : 'static')))
   if (node)
     fs.writeFileSync(scjs, fs.readFileSync(scjs, 'utf-8').replace(/checkOrigin: [a-zA-Z0-9]+/, 'checkOrigin: ' + csrf))
-  fs.writeFileSync(__dirname + '/src/routes/+layout.ts', `export const csr = ${csr};
+  fs.writeFileSync(__dirname + '/src/routes/+layout.ts', `export const csr = ${!!csr};
 ${node ? '' : `export const prerender = true;
 `}`)
   fs.writeFileSync(scjs, fs.readFileSync(scjs, 'utf-8').replace(/inlineStyleThreshold: -?([0-9]+|Infinity)/, 'inlineStyleThreshold: ' + ((inlineStyleThresholdShouldBeInfinite ? 'Infinity' : inlineStyleThreshold === -1 ? 'Infinity' : inlineStyleThreshold) ?? 0)))
-  perNodeStaticFiles[node ? 'static' : 'node'].forEach((v, k) => {
-    fs[isTemplateBase ? 'copyFileSync' : 'renameSync'](__dirname + '/' + v, __dirname + '/' + k);
+  Object.entries(perNodeStaticFiles[node ? 'static' : 'node']).forEach(([k, v]) => {
+    fs[isTemplateBase ? 'copyFileSync' : 'renameSync'](__dirname + '/' + k, __dirname + '/' + v);
   })
   if (!isTemplateBase) {
     const pkg = JSON.parse(fs.readFileSync(__dirname + '/package.json', 'utf-8'));
     delete pkg.scripts.postcreate;
     fs.writeFileSync(__dirname + '/package.json', JSON.stringify(pkg, null, 2))
     fs.unlinkSync(__filename)
-    perNodeStaticFiles[node ? 'static' : 'node'].forEach((v) => {
-      fs.unlinkSync(__dirname + '/' + v);
+    Object.entries(perNodeStaticFiles[node ? 'static' : 'node']).forEach(([k]) => {
+      fs.unlinkSync(__dirname + '/' + k);
     })
   }
 })();
