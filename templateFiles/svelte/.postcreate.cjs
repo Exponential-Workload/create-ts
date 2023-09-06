@@ -1,3 +1,16 @@
+const perNodeStaticFiles = {
+  static: {
+    'docker-compose.static.yml': 'docker-compose.yml',
+    'Dockerfile.static': 'Dockerfile',
+    'nginx.static.conf': 'Dockerfile.dev',
+  },
+  node: {
+    'docker-compose.node.yml': 'docker-compose.yml',
+    'Dockerfile.node': 'Dockerfile',
+    'nginx.node.conf': 'Dockerfile.dev',
+  },
+};
+
 (async () => {
   const fs = require('fs');
   const prompts = require('prompts');
@@ -82,10 +95,16 @@
 ${node ? '' : `export const prerender = true;
 `}`)
   fs.writeFileSync(scjs, fs.readFileSync(scjs, 'utf-8').replace(/inlineStyleThreshold: -?([0-9]+|Infinity)/, 'inlineStyleThreshold: ' + ((inlineStyleThresholdShouldBeInfinite ? 'Infinity' : inlineStyleThreshold === -1 ? 'Infinity' : inlineStyleThreshold) ?? 0)))
+  perNodeStaticFiles[node ? 'static' : 'node'].forEach((v, k) => {
+    fs[isTemplateBase ? 'copyFileSync' : 'renameSync'](__dirname + '/' + v, __dirname + '/' + k);
+  })
   if (!isTemplateBase) {
     const pkg = JSON.parse(fs.readFileSync(__dirname + '/package.json', 'utf-8'));
     delete pkg.scripts.postcreate;
     fs.writeFileSync(__dirname + '/package.json', JSON.stringify(pkg, null, 2))
     fs.unlinkSync(__filename)
+    perNodeStaticFiles[node ? 'static' : 'node'].forEach((v) => {
+      fs.unlinkSync(__dirname + '/' + v);
+    })
   }
 })();

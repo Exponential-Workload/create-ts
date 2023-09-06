@@ -1,0 +1,35 @@
+# To load balance between two instances, uncomment the instance2 section and the depends_on section in the nginx image - Additinally, uncomment the instance2 line in nginx.conf
+# To load balance between even more instances, add more instances and add them to the depends_on section in the nginx image - Additinally, add more upstreams in nginx.conf
+
+version: '3.8'
+
+services:
+  instance1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - svelte_network
+
+  # instance2:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   networks:
+  #     - svelte_network
+
+  nginx:
+    image: nginx
+    ports:
+      - "127.0.0.1:3000:80" # Change this to just 3000:80 to bind on all interfaces on port 3000.
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - instance1
+      # - instance2
+    networks:
+      - svelte_network
+
+networks:
+  svelte_network:
+    driver: bridge
