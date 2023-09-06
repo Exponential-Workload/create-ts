@@ -88,6 +88,7 @@ const run = (async () => {
   if (ciProvider && ciProvider !== 'none') {
     switch (ciProvider) {
       case 'github':
+        console.log('[CI] INFO: If you\'re not using GitHub\'s Container Registry, you\'ll want to change the CI job.');
         fs.mkdirSync(__dirname + '/.github/workflows', { recursive: true });
         fs.writeFileSync(__dirname + '/.github/workflows/build.yml', `name: Build and Deploy Docker Image
 
@@ -115,9 +116,12 @@ jobs:
       - name: Build Docker image
         run: docker build -t docker-image .
 
-      - name: Create .tar.gz archive
+      - name: Create .tar archive
         run: |
-          docker save docker-image | gzip > docker-image.tar.gz
+          docker save docker-image -o docker-image.tar
+      - name: GZip .tar archive
+        run: |
+          gzip -c docker-image.tar > docker-image.tar.gz
       - name: Upload docker archive to Artifacts
         uses: actions/upload-artifact@v3.1.3
         with:
@@ -140,8 +144,9 @@ jobs:
       - name: Push Docker image to GitHub Packages
         run: |
           docker login -u \${{ github.actor }} -p \${{ secrets.GITHUB_TOKEN }} docker.pkg.github.com
-          docker tag docker-image docker.pkg.github.com/\${{ github.repository }}/docker-image:latest
-          docker push docker.pkg.github.com/\${{ github.repository }}/docker-image:latest
+          REPO_LOWER=$(echo "\${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+          docker tag docker-image ghcr.io/\${REPO_LOWER}/docker-image:latest
+          docker push docker.pkg.github.com/\${REPO_LOWER}/docker-image:latest
 `);
         break;
 
