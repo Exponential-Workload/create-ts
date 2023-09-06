@@ -1,7 +1,7 @@
 {
   "name": "@femboycafe/create",
   "displayName": "Create TS",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "A templating tool for a variety of different typescript utilities",
   "main": "dist/index.js",
   "scripts": {
@@ -9,7 +9,8 @@
     "dev": "echo $ build && rollup -c --bundleConfigAsCjs && echo $ start && node .",
     "start": "node .",
     "prepublish": "node prepublish.js && pnpm build",
-    "postupgrade": "pnpm i chalk@^4"
+    "postupgrade": "pnpm i chalk@^4",
+    "prepublishOnly": "pnpm i chalk@^4"
   },
   "keywords": [
     "typescript",
@@ -29,18 +30,18 @@
   "author": "Exponential-Workload",
   "license": "MIT",
   "devDependencies": {
-    "@rollup/plugin-typescript": "^11.1.2",
-    "@types/command-exists": "^1.2.0",
+    "@rollup/plugin-typescript": "^11.1.3",
+    "@types/command-exists": "^1.2.1",
     "@types/fs-extra": "^11.0.1",
-    "@types/node": "^20.3.3",
+    "@types/node": "^20.5.9",
     "@types/prompts": "^2.4.4",
-    "rollup": "^3.26.0",
-    "tslib": "^2.6.0",
-    "typescript": "^5.1.6"
+    "rollup": "^3.29.0",
+    "tslib": "^2.6.2",
+    "typescript": "^5.2.2"
   },
   "dependencies": {
     "@exponentialworkload/logger": "^1.0.10",
-    "chalk": "^5.3.0",
+    "chalk": "^4.1.2",
     "command-exists": "^1.2.9",
     "fs-extra": "^11.1.1",
     "get-cursor-position": "^2.0.0",
