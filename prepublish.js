@@ -4,7 +4,10 @@ const runDir = (dir) => (dir.includes('/.pnpm') || dir.includes('node_modules'))
   if (stat.isDirectory()) runDir(filePath)
   else if (dotfiles.includes(file)) {
     console.log('[prepublish]: Make copy of', filePath);
-    fs.copyFileSync(filePath, `${dir}/dotfile${file}`)
+    if (file === '.npmignore')
+      fs.copyFileSync(filePath, `${dir}/${file.replace('.', '')}`)
+    else
+      fs.copyFileSync(filePath, `${dir}/dotfile${file}`)
   }
 })
 runDir('templateFiles')

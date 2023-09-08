@@ -189,11 +189,14 @@ const mappings = {
   const rundirSync = (dir: string) => (dir.includes('/.pnpm') || dir.includes('node_modules')) ? [] : readdirSync(dir).map(v => ([`${dir}/${v}`, v, dir, statSync(`${dir}/${v}`)] as [string, string, string, Stats])).forEach(([filePath, file, dir, stat]) => {
     if ((stat).isDirectory()) rundirSync(filePath)
     else if (dotfiles.includes(file)) {
-      console.log('[prepublish]: Make copy of', filePath);
+      console.log('[dot]: Move', filePath);
       const target = `${dir}/${file.replace('dotfile', '')}`
       if (!existsSync(target))
         copySync(filePath, target)
       rmSync(filePath)
+    } else if (existsSync(`${dir}/npmignore`)) {
+      console.log('[dot]: Move npmignore');
+      renameSync(`${dir}/npmignore`, `${dir}/.npmignore`)
     }
   })
   rundirSync(outdir)
