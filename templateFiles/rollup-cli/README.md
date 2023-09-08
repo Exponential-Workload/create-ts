@@ -33,12 +33,12 @@ created dist/lib.cjs, dist/lib.esm.mjs in 679ms
 [2023-09-08 10:30:44] waiting for changes...
 ```
 
-### Building the Library
+### Building the CLI Application
 
 ```bash
 $ <package manager run> build
 
-> rollup-library@<program> build ~/<program>
+> rollup-cli@<program> build ~/<program>
 > rollup --configPlugin @rollup/plugin-typescript --config rollup.config.ts
 
 loaded rollup.config.ts with warnings

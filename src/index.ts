@@ -26,6 +26,7 @@ const mappings = {
   'electron-express': 'Electron w/ Local Express',
   'electron-remote': 'Electron w/ Remote URI',
   'rollup-library': 'Rollup Library',
+  'rollup-cli': 'Rollup CLI',
 } as Record<string, string>;
 (async () => {
   const logger = new Logger()
