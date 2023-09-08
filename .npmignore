@@ -1,5 +1,5 @@
 node_modules
-dist
+/src
 test
 .DS_Store
 build
@@ -12,3 +12,6 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 out
 upgrade.log
+/templateFiles/*/dist
+/templateFiles/**/dist
+/templateFiles/**/.webpack
