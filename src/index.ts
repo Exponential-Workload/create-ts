@@ -224,10 +224,11 @@ const mappings = {
     if (v.endsWith('package.json'))
       processPackageJSON(v)
   });
-  let template = (a: string) => a.replace(/<program>/gui, name).replace(/<year>/gui, new Date().getFullYear().toString()).replace(/<name of author>/gui, author).replace(/<license name>/gui, licenses.join(', '))
+  let template = (a: string) => a.replace(/<program>/gui, name).replace(/<year>/gui, new Date().getFullYear().toString()).replace(/<name of author>/gui, author).replace(/<license name>/gui, licenses.join(', ')).replace(/<yyyymmdd>/gui, `${new Date().getFullYear()} ${new Date().getMonth()} ${new Date().getDate()}`)
   if (licenses.length === 1 && licenseContents[licenses[0]]) {
+    logger.info('Fetching License')
+    const license = template(await licenseContents[licenses[0]]())
     logger.info('Writing to License')
-    const license = template(licenseContents[licenses[0]])
     writeFileSync(resolve(outdir, 'LICENSE.md'), license)
   } else
     logger.warn('WNOLICENSEMD', '!== 1 License, not writing to License.md')
